@@ -26,6 +26,7 @@ import javax.persistence.Query;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -122,34 +123,6 @@ public class Main extends javax.swing.JFrame {
        
            
     public void rellenarTablas(){
-        ///POSIBLEMENTE BORRAR LO COMENTADO///
-        //EQUIPOS
-//        Equipos equipo1 = new Equipos("Athletic Club","Ernesto Valverde","Josu Urrutia","Bilbao",1901,"Nuevo San Mamés",83,0);
-//        Equipos equipo2 = new Equipos("Real Madrid","Carlos Ancelotti","Florentino Perez","Madrid",1902,"Santiago Bernabeu",83,0);
-//        Equipos equipo3 = new Equipos("Racing de Santander","Pedro Munitis","Tuto Sañudo","Santander",1913,"El Sardinero",44,33);
-//        listaequipos.getListaequipos().add(equipo1);
-//        listaequipos.getListaequipos().add(equipo2);
-//        listaequipos.getListaequipos().add(equipo3);
-//        //PALMARES
-//        Palmares palmares1 = new Palmares(equipo1,8,23,0,1,0,0);
-//        Palmares palmares2 = new Palmares(equipo2,32,19,10,9,2,2);
-//        Palmares palmares3 = new Palmares(equipo3,0,0,0,0,0,0);
-//        listapalmares.getListapalmares().add(palmares1);
-//        listapalmares.getListapalmares().add(palmares2);
-//        listapalmares.getListapalmares().add(palmares3);
-//        //JUGADORES
-//        Jugadores jugador1 = new Jugadores("Xabier","Etxeita","",27,2,equipo1,true);
-//        Jugadores jugador2 = new Jugadores("Aritz","Aduriz","",34,12,equipo1,false);
-//        Jugadores jugador3 = new Jugadores("Francisco","Alarcón","Isco",23,3,equipo2,false);
-//        Jugadores jugador4 = new Jugadores("Javier","Hernández","Chicharito",27,3,equipo2,false);
-//        Jugadores jugador5 = new Jugadores("Mamadou","Koné","",24,7,equipo3,false);
-//        Jugadores jugador6 = new Jugadores("Samuel","Fernandez","",25,0,equipo3,true);
-//        listajugadores.getListajugadores().add(jugador1);
-//        listajugadores.getListajugadores().add(jugador2);
-//        listajugadores.getListajugadores().add(jugador3);
-//        listajugadores.getListajugadores().add(jugador4);
-//        listajugadores.getListajugadores().add(jugador5);
-//        listajugadores.getListajugadores().add(jugador6);
 //         //Rellenar la tabla//
         equipostablemodel = new EquiposTableModel(listaequipos);
         jTableEquipos.setModel(equipostablemodel);
@@ -530,12 +503,6 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     private void jButtonAñadirJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirJugadorActionPerformed
-        jButtonBorrarJugador.setEnabled(false);
-        jTextFieldNombre.setText("");
-        jTextFieldApellidos.setText("");
-        jTextFieldApodo.setText("");
-        jTextFieldGoles.setText("");
-        jCheckBoxSancion.setText("");
         
     }//GEN-LAST:event_jButtonAñadirJugadorActionPerformed
 
