@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Jugadores.findByApodo", query = "SELECT j FROM Jugadores j WHERE j.apodo = :apodo"),
     @NamedQuery(name = "Jugadores.findByEdad", query = "SELECT j FROM Jugadores j WHERE j.edad = :edad"),
     @NamedQuery(name = "Jugadores.findByGoles", query = "SELECT j FROM Jugadores j WHERE j.goles = :goles"),
-    @NamedQuery(name = "Jugadores.findByEquipo", query = "SELECT j FROM Jugadores j WHERE j.equipo = :equipo"),
     @NamedQuery(name = "Jugadores.findBySancionado", query = "SELECT j FROM Jugadores j WHERE j.sancionado = :sancionado")})
 public class Jugadores implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -55,9 +54,6 @@ public class Jugadores implements Serializable {
     private Short edad;
     @Column(name = "Goles")
     private Short goles;
-    @Basic(optional = false)
-    @Column(name = "Equipo")
-    private String equipo;
     @Column(name = "Sancionado")
     private Boolean sancionado;
     @JoinColumn(name = "IdEquipo", referencedColumnName = "IdEquipo")
@@ -71,11 +67,10 @@ public class Jugadores implements Serializable {
         this.idJugador = idJugador;
     }
 
-    public Jugadores(Integer idJugador, String nombre, String apellidos, String equipo) {
+    public Jugadores(Integer idJugador, String nombre, String apellidos) {
         this.idJugador = idJugador;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.equipo = equipo;
     }
 
     public Integer getIdJugador() {
@@ -124,14 +119,6 @@ public class Jugadores implements Serializable {
 
     public void setGoles(Short goles) {
         this.goles = goles;
-    }
-
-    public String getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(String equipo) {
-        this.equipo = equipo;
     }
 
     public Boolean getSancionado() {

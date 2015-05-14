@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Palmares.findAll", query = "SELECT p FROM Palmares p"),
     @NamedQuery(name = "Palmares.findByIdPalmares", query = "SELECT p FROM Palmares p WHERE p.idPalmares = :idPalmares"),
-    @NamedQuery(name = "Palmares.findByEquipo", query = "SELECT p FROM Palmares p WHERE p.equipo = :equipo"),
     @NamedQuery(name = "Palmares.findByLiga", query = "SELECT p FROM Palmares p WHERE p.liga = :liga"),
     @NamedQuery(name = "Palmares.findByCopaRey", query = "SELECT p FROM Palmares p WHERE p.copaRey = :copaRey"),
     @NamedQuery(name = "Palmares.findByChampions", query = "SELECT p FROM Palmares p WHERE p.champions = :champions"),
@@ -43,9 +42,6 @@ public class Palmares implements Serializable {
     @Basic(optional = false)
     @Column(name = "IdPalmares")
     private Integer idPalmares;
-    @Basic(optional = false)
-    @Column(name = "Equipo")
-    private String equipo;
     @Column(name = "Liga")
     private Short liga;
     @Column(name = "CopaRey")
@@ -69,25 +65,12 @@ public class Palmares implements Serializable {
         this.idPalmares = idPalmares;
     }
 
-    public Palmares(Integer idPalmares, String equipo) {
-        this.idPalmares = idPalmares;
-        this.equipo = equipo;
-    }
-
     public Integer getIdPalmares() {
         return idPalmares;
     }
 
     public void setIdPalmares(Integer idPalmares) {
         this.idPalmares = idPalmares;
-    }
-
-    public String getEquipo() {
-        return equipo;
-    }
-
-    public void setEquipo(String equipo) {
-        this.equipo = equipo;
     }
 
     public Short getLiga() {

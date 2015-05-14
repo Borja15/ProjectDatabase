@@ -44,7 +44,7 @@ public class JugadoresTableModel extends AbstractTableModel{
             
             case 4: return jugador.getGoles();
             
-            case 5: return jugador.getEquipo();
+            case 5: return jugador.getIdEquipo().getEquipo();
             
             case 6: return jugador.getSancionado();
                 

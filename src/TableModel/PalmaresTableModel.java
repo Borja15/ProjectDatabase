@@ -34,7 +34,7 @@ public class PalmaresTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Palmares palmare = palmaresTabla.getListapalmares().get(rowIndex);
         switch(columnIndex){
-            case 0: return palmare.getEquipo();
+            case 0: return palmare.getIdEquipo().getEquipo();
                     
             case 1: return palmare.getLiga();
                 

@@ -21,4 +21,10 @@ public class ListaEquipos {
     public List<Equipos> getListaequipos() {
         return listaequipos;
     }   
+
+    public int size() {
+        return listaequipos.size();
+    }
+    
+    
 }

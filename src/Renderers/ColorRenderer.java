@@ -1,16 +1,14 @@
-package Renderers;
 
+package Renderers;
 
 import java.awt.Color;
 import javax.swing.table.DefaultTableCellRenderer;
-
 /**
  *
  * @author Borja Andrades
  */
-public class ColorRenderer extends DefaultTableCellRenderer{
-
-   @Override
+public class ColorRenderer extends DefaultTableCellRenderer {
+    @Override
    protected void setValue(Object value) {
        super.setValue(value);
        switch((String)value){
@@ -25,5 +23,6 @@ public class ColorRenderer extends DefaultTableCellRenderer{
                break;        
        }
     }
-    
 }
+
+
