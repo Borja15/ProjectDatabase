@@ -53,12 +53,15 @@ public class Main extends javax.swing.JFrame {
     ListaEquipos listaequipos = new ListaEquipos();
     ListaPalmares listapalmares = new ListaPalmares();
     ListaJugadores listajugadores = new ListaJugadores();
+    //Transacciones
+    Jugadores jugador;
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
         jButtonActualizar.setEnabled(false);
+
         
         // Permitir seleccionar solo una fila
         jTableEquipos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -111,11 +114,13 @@ public class Main extends javax.swing.JFrame {
            Object Apodo = jTableJugadores.getValueAt(indexSelectedRow,2);
            Object Goles = jTableJugadores.getValueAt(indexSelectedRow,4);
            Object Sancion = jTableJugadores.getValueAt(indexSelectedRow,6);
+           Object Edad = jTableJugadores.getValueAt(indexSelectedRow,3);
            jTextFieldNombre.setText(String.valueOf(Nombre));
            jTextFieldApellidos.setText(String.valueOf(Apellidos));
            jTextFieldApodo.setText(String.valueOf(Apodo));
            jTextFieldGoles.setText(String.valueOf(Goles));
            jCheckBoxSancion.setSelected((boolean)Sancion);
+           jTextFieldEdad.setText(String.valueOf(Edad));
            //TERMINAR COMBOBOX
        }
 
@@ -123,7 +128,7 @@ public class Main extends javax.swing.JFrame {
        
            
     public void rellenarTablas(){
-//         //Rellenar la tabla//
+        //Rellenar la tabla//
         equipostablemodel = new EquiposTableModel(listaequipos);
         jTableEquipos.setModel(equipostablemodel);
         palmarestablemodel = new PalmaresTableModel(listapalmares);
@@ -180,8 +185,8 @@ public class Main extends javax.swing.JFrame {
         jButtonAñadirJugador = new javax.swing.JButton();
         jButtonBorrarJugador = new javax.swing.JButton();
         jButtonActualizarJugador = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jTextFieldGoles = new javax.swing.JTextField();
+        jTextFieldEdad = new javax.swing.JTextField();
         jButtonActualizar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
 
@@ -235,7 +240,7 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -275,7 +280,7 @@ public class Main extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -337,6 +342,11 @@ public class Main extends javax.swing.JFrame {
         jButtonBorrarJugador.setText("Borrar");
 
         jButtonActualizarJugador.setText("Actualizar");
+        jButtonActualizarJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonActualizarJugadorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelJugadoresLayout = new javax.swing.GroupLayout(jPanelJugadores);
         jPanelJugadores.setLayout(jPanelJugadoresLayout);
@@ -354,7 +364,7 @@ public class Main extends javax.swing.JFrame {
                             .addGroup(jPanelJugadoresLayout.createSequentialGroup()
                                 .addGap(46, 46, 46)
                                 .addComponent(jLabel2)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 49, Short.MAX_VALUE))
                     .addGroup(jPanelJugadoresLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,13 +384,14 @@ public class Main extends javax.swing.JFrame {
                                     .addComponent(jLabel6))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelJugadoresLayout.createSequentialGroup()
-                                        .addComponent(jTextFieldGoles, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(jTextFieldNombre)
                                     .addComponent(jTextFieldApodo)
                                     .addComponent(jTextFieldApellidos)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))))))
+                                    .addGroup(jPanelJugadoresLayout.createSequentialGroup()
+                                        .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTextFieldGoles, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextFieldEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addContainerGap())
         );
         jPanelJugadoresLayout.setVerticalGroup(
@@ -400,15 +411,15 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldApodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(9, 9, 9)
+                .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jTextFieldGoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
+                .addGap(11, 11, 11)
                 .addGroup(jPanelJugadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
@@ -431,7 +442,7 @@ public class Main extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
@@ -495,15 +506,25 @@ public class Main extends javax.swing.JFrame {
         jButtonActualizar.setEnabled(true);
     }//GEN-LAST:event_jTableEquiposMouseClicked
 
-    private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
-        //Boton de guardar/actualizar los datos de las columnas
-        //CAMBIARLO,QUE SE GUARDE EN EL OBJETO ARRAYLIST
-        
-        equipostablemodel.fireTableRowsUpdated(jTableEquipos.getSelectedRow(), jTableEquipos.getSelectedRow());    
-    }//GEN-LAST:event_jButtonActualizarActionPerformed
-
     private void jButtonAñadirJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirJugadorActionPerformed
-        
+        //Transsaccion añadir
+        entityManager.getTransaction().begin();
+        //Coger y añadir los datos
+        jugador.setNombre(jTextFieldNombre.getText());
+        jugador.setApellidos(jTextFieldApellidos.getText());
+        jugador.setApodo(jTextFieldApodo.getText());
+        jugador.setEdad(Short.valueOf(jTextFieldEdad.getText()));
+        jugador.setGoles(Short.valueOf(jTextFieldGoles.getText()));
+        jugador.setIdEquipo((Equipos) jComboBoxEquipo.getSelectedItem());
+        jugador.setSancionado(jCheckBoxSancion.isSelected());
+        //persistencia
+        entityManager.persist(jugador);
+        //añadir a la lista
+        listajugadores.getListajugadores().add(jugador);  
+        jugadorestablemodel.fireTableRowsInserted(listajugadores.getListajugadores().size()-1,listajugadores.getListajugadores().size()-1);
+        jTableJugadores.setRowSelectionInterval(listajugadores.getListajugadores().size()-1,listajugadores.getListajugadores().size()-1);
+        //confirmar
+        entityManager.getTransaction().commit();
     }//GEN-LAST:event_jButtonAñadirJugadorActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -516,7 +537,26 @@ public class Main extends javax.swing.JFrame {
         jTextFieldApodo.setText("");
         jTextFieldGoles.setText("");
         jCheckBoxSancion.setText("");
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().rollback();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
+        
+    }//GEN-LAST:event_jButtonActualizarActionPerformed
+
+    private void jButtonActualizarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarJugadorActionPerformed
+        entityManager.getTransaction().begin(); 
+        jugador.getNombre();
+        jugador.getApellidos();
+        jugador.getApodo();
+        jugador.getEdad();
+        jugador.getGoles();
+        jugador.getIdEquipo();
+        jugador.getSancionado();
+        entityManager.merge(jugador); 
+        entityManager.getTransaction().commit(); 
+    }//GEN-LAST:event_jButtonActualizarJugadorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -561,7 +601,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JCheckBox jCheckBoxSancion;
     private javax.swing.JComboBox jComboBoxEquipo;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -584,6 +623,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable jTablePalmares;
     private javax.swing.JTextField jTextFieldApellidos;
     private javax.swing.JTextField jTextFieldApodo;
+    private javax.swing.JTextField jTextFieldEdad;
     private javax.swing.JTextField jTextFieldGoles;
     private javax.swing.JTextField jTextFieldNombre;
     // End of variables declaration//GEN-END:variables

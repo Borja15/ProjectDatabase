@@ -80,23 +80,16 @@ public class EquiposTableModel extends AbstractTableModel {
     //Fila de una columna se aditable
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch(columnIndex){
-            case 0: return false;
-                    
-            case 1: return true;
-                    
-            case 2: return true;
-                
-            case 3: return false;            
-            
-            case 4: return false;
-                
-            case 5 : return false;
-            
-            case 6: return true;
-            
+            case 0:     
+            case 3:                       
+            case 4:              
+            case 5: return false; 
+            case 1:                   
+            case 2:                        
+            case 6:
             case 7: return true;  
+            default:return true;
         }
-        return false;
     }
 
     @Override
