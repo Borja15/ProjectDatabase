@@ -53,8 +53,7 @@ public class Main extends javax.swing.JFrame {
     ListaEquipos listaequipos = new ListaEquipos();
     ListaPalmares listapalmares = new ListaPalmares();
     ListaJugadores listajugadores = new ListaJugadores();
-    //Transacciones
-    Jugadores jugador;
+    
     /**
      * Creates new form Main
      */
@@ -89,7 +88,7 @@ public class Main extends javax.swing.JFrame {
         
     }
         
-        
+
         //Connection Database// 
         public void connectionDatabaseE(){
          query = entityManager.createNamedQuery("Equipos.findAll");
@@ -100,7 +99,7 @@ public class Main extends javax.swing.JFrame {
          /////
          queryjugadores = entityManager.createNamedQuery("Jugadores.findAll");
          listajugadores.setListajugadores(queryjugadores.getResultList());
-         entityManager.close();
+         
         }
       
        
@@ -109,6 +108,7 @@ public class Main extends javax.swing.JFrame {
        if(indexSelectedRow < 0){
            jTextFieldNombre.setText("No Row");
        } else {
+           
            Object Nombre = jTableJugadores.getValueAt(indexSelectedRow,0);
            Object Apellidos = jTableJugadores.getValueAt(indexSelectedRow,1);
            Object Apodo = jTableJugadores.getValueAt(indexSelectedRow,2);
@@ -121,7 +121,6 @@ public class Main extends javax.swing.JFrame {
            jTextFieldGoles.setText(String.valueOf(Goles));
            jCheckBoxSancion.setSelected((boolean)Sancion);
            jTextFieldEdad.setText(String.valueOf(Edad));
-           //TERMINAR COMBOBOX
        }
 
     }
@@ -340,6 +339,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         jButtonBorrarJugador.setText("Borrar");
+        jButtonBorrarJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBorrarJugadorActionPerformed(evt);
+            }
+        });
 
         jButtonActualizarJugador.setText("Actualizar");
         jButtonActualizarJugador.addActionListener(new java.awt.event.ActionListener() {
@@ -507,24 +511,30 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableEquiposMouseClicked
 
     private void jButtonAñadirJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirJugadorActionPerformed
+        Jugadores jugador = new Jugadores();
         //Transsaccion añadir
         entityManager.getTransaction().begin();
         //Coger y añadir los datos
         jugador.setNombre(jTextFieldNombre.getText());
         jugador.setApellidos(jTextFieldApellidos.getText());
         jugador.setApodo(jTextFieldApodo.getText());
+        if(jTextFieldEdad.getText().isEmpty()){
+            jugador.setEdad(null);
+        }else{
+            jugador.setEdad(Short.valueOf(jTextFieldEdad.getText()));
+        }
         jugador.setEdad(Short.valueOf(jTextFieldEdad.getText()));
         jugador.setGoles(Short.valueOf(jTextFieldGoles.getText()));
         jugador.setIdEquipo((Equipos) jComboBoxEquipo.getSelectedItem());
         jugador.setSancionado(jCheckBoxSancion.isSelected());
         //persistencia
         entityManager.persist(jugador);
+        //confirmar
+        entityManager.getTransaction().commit();
         //añadir a la lista
         listajugadores.getListajugadores().add(jugador);  
         jugadorestablemodel.fireTableRowsInserted(listajugadores.getListajugadores().size()-1,listajugadores.getListajugadores().size()-1);
-        jTableJugadores.setRowSelectionInterval(listajugadores.getListajugadores().size()-1,listajugadores.getListajugadores().size()-1);
-        //confirmar
-        entityManager.getTransaction().commit();
+        jTableJugadores.setRowSelectionInterval(listajugadores.getListajugadores().size()-1,listajugadores.getListajugadores().size()-1);  
     }//GEN-LAST:event_jButtonAñadirJugadorActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -537,26 +547,32 @@ public class Main extends javax.swing.JFrame {
         jTextFieldApodo.setText("");
         jTextFieldGoles.setText("");
         jCheckBoxSancion.setText("");
-        entityManager.getTransaction().begin();
+        jTextFieldEdad.setText("");
         entityManager.getTransaction().rollback();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
-        
+      equipostablemodel.fireTableRowsUpdated(jTableEquipos.getSelectedRow(), jTableEquipos.getSelectedRow());
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     private void jButtonActualizarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarJugadorActionPerformed
-        entityManager.getTransaction().begin(); 
-        jugador.getNombre();
-        jugador.getApellidos();
-        jugador.getApodo();
-        jugador.getEdad();
-        jugador.getGoles();
-        jugador.getIdEquipo();
-        jugador.getSancionado();
-        entityManager.merge(jugador); 
-        entityManager.getTransaction().commit(); 
+       //TERMINAR
     }//GEN-LAST:event_jButtonActualizarJugadorActionPerformed
+
+    private void jButtonBorrarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarJugadorActionPerformed
+        //TERMINAR
+        Jugadores jugador = new Jugadores();
+        //Transsaccion borrar
+        entityManager.getTransaction().begin();
+        //persistencia
+        entityManager.remove(jugador);
+        //confirmar
+        entityManager.getTransaction().commit();
+        //añadir a la lista
+        listajugadores.getListajugadores().remove(jugador);  
+        int indexSelectedRow = jTableJugadores.getSelectedRow();
+        jugadorestablemodel.fireTableRowsDeleted(indexSelectedRow, indexSelectedRow);
+    }//GEN-LAST:event_jButtonBorrarJugadorActionPerformed
 
     /**
      * @param args the command line arguments
