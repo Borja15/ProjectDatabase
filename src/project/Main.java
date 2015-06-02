@@ -556,21 +556,46 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     private void jButtonActualizarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarJugadorActionPerformed
-       //TERMINAR
+       //Transsaccion actualizar
+       entityManager.getTransaction().begin();
+        //Indice de filas
+        int indexSelectedRow = jTableJugadores.getSelectedRow();
+        //Seleccionar la fila en el jtable (desde el indice)
+        int IndexSelectedTrans= jTableJugadores.convertRowIndexToModel(indexSelectedRow);
+        Jugadores jugadoractualizar = listajugadores.getListajugadores().get(IndexSelectedTrans);
+        //Coger y añadir los datos
+        jugadoractualizar.setNombre(jTextFieldNombre.getText());
+        jugadoractualizar.setApellidos(jTextFieldApellidos.getText());
+        jugadoractualizar.setApodo(jTextFieldApodo.getText());
+        if(jTextFieldEdad.getText().isEmpty()){
+            jugadoractualizar.setEdad(null);
+        }else{
+            jugadoractualizar.setEdad(Short.valueOf(jTextFieldEdad.getText()));
+        }
+        jugadoractualizar.setEdad(Short.valueOf(jTextFieldEdad.getText()));
+        jugadoractualizar.setGoles(Short.valueOf(jTextFieldGoles.getText()));
+        jugadoractualizar.setIdEquipo((Equipos) jComboBoxEquipo.getSelectedItem());
+        jugadoractualizar.setSancionado(jCheckBoxSancion.isSelected());
+       //actualizar
+        entityManager.merge(jugadoractualizar);
+        //confirmar
+        entityManager.getTransaction().commit();
     }//GEN-LAST:event_jButtonActualizarJugadorActionPerformed
 
     private void jButtonBorrarJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarJugadorActionPerformed
-        //TERMINAR
-        Jugadores jugador = new Jugadores();
         //Transsaccion borrar
         entityManager.getTransaction().begin();
-        //persistencia
-        entityManager.remove(jugador);
+        //Indice de filas
+        int indexSelectedRow = jTableJugadores.getSelectedRow();
+        //Seleccionar la fila en el jtable (desde el indice)
+        int IndexSelectedTrans= jTableJugadores.convertRowIndexToModel(indexSelectedRow);
+        Jugadores jugadorborrar = listajugadores.getListajugadores().get(IndexSelectedTrans);
+        //borrar
+        entityManager.remove(jugadorborrar);
         //confirmar
         entityManager.getTransaction().commit();
-        //añadir a la lista
-        listajugadores.getListajugadores().remove(jugador);  
-        int indexSelectedRow = jTableJugadores.getSelectedRow();
+        //borrar de la lista
+        listajugadores.getListajugadores().remove(jugadorborrar);
         jugadorestablemodel.fireTableRowsDeleted(indexSelectedRow, indexSelectedRow);
     }//GEN-LAST:event_jButtonBorrarJugadorActionPerformed
 
